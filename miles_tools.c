@@ -31,9 +31,10 @@ void initiDarr(iDarr *iniDarr, int startingLimit)
     }
 }
 
+// free function for iDarrs so I hopefully don't ever forget to free both the array and the struct
 void freeiDarr(iDarr *inputArr)
 {
-    if (inputArr->array != NULL)
+    if (inputArr->array != NULL) // This just ensures I can call this function even if I haven't allocated memory for the array yet
     {
         free(inputArr->array);
         free(inputArr);
