@@ -1,0 +1,7 @@
+
+int *returnFactors(int inpNum) 
+{
+    
+
+    
+}
