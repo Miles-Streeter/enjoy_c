@@ -40,12 +40,13 @@ void freeiDarr(iDarr *inputArr)
 // This exists so I don't forget to increment the size, or try to add data outside of the limit
 // I should probably try to make a deletion function that shifts the data around so I can remove items
 // TODO: above
-void appendiDarr(iDarr *inputArr, int number, int index)
+void appendiDarr(iDarr *inputArr, int number)
 {
-    if (index > inputArr->limit)
+    // need to make this resize the array. Whoops.
+    if (inputArr->size == inputArr->limit)
     {
         //explode
-        printf("Failed to insert item. Index larger than array limit\n");
+        printf("Failed to insert item. Array Full. Resize\n");
         return;
     }
     
@@ -81,24 +82,4 @@ void expandiDarr(iDarr *inputArr, int newLimit)
     int *tmpArr = inputArr->array;
     inputArr->array = newArr;
     free(tmpArr);
-}
-
-
-
-
-
-
-// ignore. I didn't setup a proper file to start testing.
-int main(void)
-{   
-    iDarr *test = malloc(sizeof(iDarr));
-    if (test == NULL)
-    {
-        printf("failed to allocate memory for Integer Dynamic Array\n");
-        exit(0);
-    }
-       
-    initiDarr(test, 1);
-    printf("%d\n", test->limit);
-    freeiDarr(test);
 }
