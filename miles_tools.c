@@ -3,35 +3,45 @@
 #include "miles_tools.h"
 
 
-// function used to initialize an iDarr. Creating this function to give initial values to array-
-// and ideally avoid accidentally referencing an array with no values, or screwing up the limit or size
-void initiDarr(iDarr *iniDarr, int startingLimit)
+// Function creates and returns an integer dynamic array. Allocates memory for the array as well.
+// Ideally this will stop me from referencing NULL values, but I'll always find a way.
+// Returns zero if any mem allocs fail
+iDarr *initiDarr(int startingLimit)
 {
-    iniDarr->array = malloc(startingLimit * sizeof(int));
+    // Allocating the memory for the array and creating a pointer to it.
+    iDarr *tmpiDarr = malloc(sizeof(iDarr));
+    if (tmpiDarr == NULL)
+    {
+        return 0;
+    }
 
-    if (iniDarr->array == NULL)
+    // Allocating the memory for the array and checking for NULL
+    tmpiDarr->array = malloc(startingLimit * sizeof(int));
+    if (tmpiDarr->array == NULL)
     {
         printf("Failed to allocate memory to Integer Dynamic Array\n");
-        return;
+        return 0;
     }
     else
     {
-        iniDarr->size = 0;
-        iniDarr->limit = startingLimit;
+        tmpiDarr->size = 0;
+        tmpiDarr->limit = startingLimit;
     }
+
+    return tmpiDarr;
 }
 
 // free function for iDarrs so I hopefully don't ever forget to free both the array and the struct
 void freeiDarr(iDarr *inputArr)
 {
-    if (inputArr->array != NULL) // This just ensures I can call this function even if I haven't allocated memory for the array yet
+    if (inputArr->array != NULL) // This just ensures I can call this function even if I haven't allocated memory for the array yet. Which shouldn't happen
     {
         free(inputArr->array);
         free(inputArr);
     }
     else
     {
-        free(inputArr);
+        free(inputArr); // frees just the pointer if the array is NULL
     }
     
 }
@@ -60,13 +70,13 @@ void appendiDarr(iDarr *inputArr, int number)
 // TODO: check to see if newLimit is smaller and the old limit, then figure out what to do in that scenario
 void expandiDarr(iDarr *inputArr, int newLimit)
 {
-    int *newArr = malloc(newLimit * sizeof(int));
+    int *newArr = malloc(newLimit * sizeof(int)); // allocating new array
     if (newArr == NULL) // Checking for NULL, duh
     {
         printf("Unable to allocate memory for new iDarr\n");
         return;
     }
-    else if (inputArr->size == 0) // Making sure the input array isn't zero
+    else if (inputArr->size == 0) // Making sure the input array isn't zero. Remove this eventually maybe
     {
         printf("Input iDarr size equals zero. Nothing to resize\n");
         return;
@@ -81,5 +91,7 @@ void expandiDarr(iDarr *inputArr, int newLimit)
     // swap and free
     int *tmpArr = inputArr->array;
     inputArr->array = newArr;
+    inputArr->limit = newLimit; // also update the limit
+        
     free(tmpArr);
 }

@@ -11,9 +11,9 @@ typedef struct {
     int limit;
 } iDarr;
 
-void initiDarr(iDarr *iniDarr, int startingLimit);
-void freeiDarr(iDarr *inputArr);
-void expandiDarr(iDarr *inputArr, int newLimit);
+iDarr *initiDarr(int startingLimit); 
+void freeiDarr(iDarr *inputArr); 
+void expandiDarr(iDarr *inputArr, int newLimit); 
 void appendiDarr(iDarr *inputArr, int number);
 
 #endif
