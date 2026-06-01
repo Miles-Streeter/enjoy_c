@@ -3,6 +3,10 @@
 #include "miles_tools.h"
 
 
+// ###################################
+// ##     DYNAMIC INTEGER ARRAY     ##
+// ###################################
+
 // Function creates and returns an integer dynamic array. Allocates memory for the array as well.
 // Ideally this will stop me from referencing NULL values, but I'll always find a way.
 // Returns zero if any mem allocs fail
@@ -34,7 +38,8 @@ iDarr *initiDarr(int startingLimit)
 // free function for iDarrs so I hopefully don't ever forget to free both the array and the struct
 void freeiDarr(iDarr *inputArr)
 {
-    if (inputArr->array != NULL) // This just ensures I can call this function even if I haven't allocated memory for the array yet. Which shouldn't happen
+    // This just ensures I can call this function even if I haven't allocated memory for the array yet. Which shouldn't happen
+    if (inputArr->array != NULL)
     {
         free(inputArr->array);
         free(inputArr);
@@ -55,9 +60,8 @@ void appendiDarr(iDarr *inputArr, int number)
     // need to make this resize the array. Whoops.
     if (inputArr->size == inputArr->limit)
     {
-        //explode
-        printf("Failed to insert item. Array Full. Resize\n");
-        return;
+        // doubles limit if the limit is hit. Find a better way. Also might fail. Should have it return a 1 or 0, and force me to check if it worked or not.
+        expandiDarr(inputArr, inputArr->limit + INCREASE_ARRAY);
     }
     
     const int FIRST_OPEN_INDEX = inputArr->size; // size of the array should always be equal to the first open index location
@@ -67,10 +71,20 @@ void appendiDarr(iDarr *inputArr, int number)
 
 // Takes new limit and iDarr pointer as input, allocates a new array for the input array-
 // of specified size, and copies data over. Swaps arrays within iDarr and frees the old one
-// TODO: check to see if newLimit is smaller and the old limit, then figure out what to do in that scenario
+// TODO: Change this to return a 1 or 0. That way I can do something if it fails.
 void expandiDarr(iDarr *inputArr, int newLimit)
-{
-    int *newArr = malloc(newLimit * sizeof(int)); // allocating new array
+{   
+    // Making sure the new limit is bigger than the old one
+    if (newLimit <= inputArr->size)
+    {
+        printf("Cannot decrease array size with array expansion function\n");
+        return;
+    }
+
+    // I want to find the newLimit easier and know where it's being referenced easier. 
+    const int NEW_SIZE = newLimit;
+
+    int *newArr = malloc(NEW_SIZE * sizeof(int)); // allocating new array
     if (newArr == NULL) // Checking for NULL, duh
     {
         printf("Unable to allocate memory for new iDarr\n");
@@ -95,3 +109,13 @@ void expandiDarr(iDarr *inputArr, int newLimit)
         
     free(tmpArr);
 }
+
+// ###################################
+// ###################################
+// ###################################
+
+
+// ###################################
+// ##         Linked List!          ##
+// ###################################
+
