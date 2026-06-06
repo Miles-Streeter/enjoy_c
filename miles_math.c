@@ -6,7 +6,7 @@
 // returns factors in the form of a dynamic integer array
 iDarr *returnFactors(int inpNum) 
 {
-    const int MAX_ARR = 128; // limiting how big the array can be
+    const int MAX_ARR = 256; // limiting how big the array can be
     
     int arrInt[MAX_ARR]; // temp array to hold the factors of the input number
     int arrCount = 0; // Counter for indexes of array
