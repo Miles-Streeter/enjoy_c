@@ -13,8 +13,8 @@
 // From now on iDarr = Integer Dynamic Array
 typedef struct {
     int *array;
-    int size;
-    int limit;
+    int size; // actual size of the array. This number should always be equal to how many items are in the array
+    int limit; // amount of items the array can have before needing to be resized
 } iDarr;
 
 iDarr *initiDarr(int startingLimit); 

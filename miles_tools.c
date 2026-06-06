@@ -8,7 +8,7 @@
 // ###################################
 
 // Function creates and returns an integer dynamic array. Allocates memory for the array as well.
-// Ideally this will stop me from referencing NULL values, but I'll always find a way.
+// Ideally this will stop me from referencing NULL values, but I'm sure there's a way.
 // Returns zero if any mem allocs fail
 iDarr *initiDarr(int startingLimit)
 {
@@ -16,6 +16,7 @@ iDarr *initiDarr(int startingLimit)
     iDarr *tmpiDarr = malloc(sizeof(iDarr));
     if (tmpiDarr == NULL)
     {
+        free(tmpiDarr);
         return 0;
     }
 
@@ -23,6 +24,7 @@ iDarr *initiDarr(int startingLimit)
     tmpiDarr->array = malloc(startingLimit * sizeof(int));
     if (tmpiDarr->array == NULL)
     {
+        free(tmpiDarr);
         printf("Failed to allocate memory to Integer Dynamic Array\n");
         return 0;
     }
@@ -71,7 +73,6 @@ void appendiDarr(iDarr *inputArr, int number)
 
 // Takes new limit and iDarr pointer as input, allocates a new array for the input array-
 // of specified size, and copies data over. Swaps arrays within iDarr and frees the old one
-// TODO: Change this to return a 1 or 0. That way I can do something if it fails.
 void expandiDarr(iDarr *inputArr, int newLimit)
 {   
     // Making sure the new limit is bigger than the old one
@@ -87,6 +88,7 @@ void expandiDarr(iDarr *inputArr, int newLimit)
     int *newArr = malloc(NEW_SIZE * sizeof(int)); // allocating new array
     if (newArr == NULL) // Checking for NULL, duh
     {
+        free(newArr);
         printf("Unable to allocate memory for new iDarr\n");
         return;
     }
