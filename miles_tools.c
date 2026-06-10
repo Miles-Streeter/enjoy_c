@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <stddef.h>
+#include <string.h>
 #include "miles_tools.h"
 
 
@@ -121,3 +123,43 @@ void expandiDarr(iDarr *inputArr, int newLimit)
 // ##         Linked List!          ##
 // ###################################
 
+SinLL_t *initSinLL(size_t size)
+{
+    SinLL_t *list = malloc(sizeof(SinLL_t));
+    if (list == NULL)
+    {
+        free(list);
+    }
+
+    if (size > 0)
+    {
+        list->type_size = size;
+        list->head = NULL;
+        list->isEmpty = 1;
+    }
+
+    return list;
+}
+
+void push_sll_item(SinLL_t *list, void *newItem)
+{
+    SinLL_node *new_node = malloc(sizeof(SinLL_node));
+    if (new_node == NULL)
+    {
+        printf("unable to create LL node\n"); // TODO: learn about proper error handling
+        free(new_node);
+    }
+
+    if (list->isEmpty)
+    {
+        list->head = new_node;
+        new_node->next = NULL;
+        memcpy(&new_node->item, &newItem, list->type_size);
+    }
+    else
+    {
+        new_node->next = list->head;
+        list->head = new_node;
+        memcpy(&new_node->item, &newItem, list->type_size);
+    }
+}

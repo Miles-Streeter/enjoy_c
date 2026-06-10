@@ -2,6 +2,7 @@
 #define MILES_TOOLS_H
 #define INCREASE_ARRAY 256 // used for iDarr
 
+#include <stddef.h>
 
 
 // ###################################
@@ -26,8 +27,18 @@ void appendiDarr(iDarr *inputArr, int number);
 // ##         Linked List!          ##
 // ###################################
 
-// typedef struct NODE {
-//     
-// }
+typedef struct SinLL_node {
+    void *item;
+    struct SinLL_node *next;
+} SinLL_node;
+
+typedef struct {
+    SinLL_node *head; // so none of this ?
+    size_t type_size;
+    int isEmpty;
+} SinLL_t;
+
+SinLL_t *initSinLL(size_t size);
+void push_sll_item(SinLL_t *list, void *newItem);
 
 #endif
