@@ -1,24 +1,17 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <time.h>
+#include "rand_arr_gen.h"
 
 
-typedef struct {
-    int *arr;
-    int size;
-    int max;
-} rarr;
-
-
-void initRandArr(int sizeLimit, rarr newArr) {
+rarr initRandArr(int sizeLimit) {
 
     // seeding rand function
     srand(time(NULL));
 
-    // in case you pass an array with stuff already in it
-    if (newArr.arr != NULL)
-        free(newArr.arr);
     
     // making array
+    rarr newArr;
     newArr.arr = malloc(sizeLimit * sizeof(int));
     newArr.size = 0;
     newArr.max = sizeLimit;
@@ -41,4 +34,6 @@ void initRandArr(int sizeLimit, rarr newArr) {
         newArr.arr[i] = newArr.arr[j];
         newArr.arr[j] = tmp;
     }
+
+    return newArr;
 }
